@@ -1,0 +1,58 @@
+TEMPLATE = lib
+CONFIG -= debug
+CONFIG += qt warn_on plugin
+
+# Determine the architectures which Maya supports.
+ARCH_FLAGS =
+MAYABIN = $$(MAYA_LOCATION)/bin/maya
+
+system(lipo $${MAYABIN} -verify_arch i386) {
+	ARCH_FLAGS += -arch i386
+}
+
+system(lipo $${MAYABIN} -verify_arch x86_64) {
+	ARCH_FLAGS += -arch x86_64
+}
+
+
+
+
+_DEVKIT_LOCATION = $$(MAYA_LOCATION)/../../devkit
+_MAYA_INCLUDE_DIR = $${_DEVKIT_LOCATION}/include
+
+DEFINES		+= CC_GNU_ OSMac_ OSMacOSX_ Bits32_  REQUIRE_IOSTREAM \
+			OSMac_MachO_ _LANGUAGE_C_PLUS_PLUS 
+INCLUDEPATH	+= .. "$${_MAYA_INCLUDE_DIR}"
+TARGET_EXT	= bundle
+QMAKE_EXTENSION_SHLIB	= bundle
+
+QMAKE_CC	= gcc
+QMAKE_CXX	= g++
+
+_CFLAGS		= -O3 $${ARCH_FLAGS} -include "$${_MAYA_INCLUDE_DIR}/maya/OpenMayaMac.h"
+QMAKE_CFLAGS	+= $${_CFLAGS}
+
+QMAKE_CXXFLAGS	+= $${_CFLAGS} $(WARNFLAGS) $(ERROR_FLAGS) \
+			-fno-gnu-keywords -fpascal-strings
+
+_DYNLIB_LOCATION	= $$(MAYA_LOCATION)/MacOS
+_LREMAP			= -Wl,-executable_path,"$${_DYNLIB_LOCATION}"
+
+LIBS		+= -L"$${_DYNLIB_LOCATION}" $${_LREMAP} -lOpenMaya -lFoundation \
+			-framework System -framework CoreServices \
+			-framework SystemConfiguration \
+			-framework Carbon -framework Cocoa \
+			-framework ApplicationServices \
+			-framework IOKit
+
+
+# Including $${ARCH_FLAGS} creates a bug which seems to be -arch flag simplification problem
+QMAKE_LFLAGS	+= -fno-gnu-keywords -fpascal-strings -mmacosx-version-min=10.6 \ 
+                   -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk \
+                   -bundle #$${ARCH_FLAGS}
+
+QMAKE_LINK		= $${QMAKE_CXX}
+QMAKE_MAC_SDK	= /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk
+
+MAKEFILE = $${TARGET}.mak
+
