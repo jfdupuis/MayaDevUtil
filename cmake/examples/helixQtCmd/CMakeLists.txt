@@ -1,6 +1,9 @@
 cmake_minimum_required (VERSION 2.6) 
 project (helixQtCmd) 
 
+# QTDIR can be set to indicate to help finding Qt
+# set(ENV{QTDIR} /usr/local/Cellar/qt/4.7.1/)
+
 set(CMAKE_SHARED_MODULE_SUFFIX ".bundle")
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
