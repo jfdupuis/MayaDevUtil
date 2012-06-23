@@ -53,9 +53,11 @@ include buildconfig
 			-e 's?-framework QtOpenGL?$$(MAYA_LOCATION)/MacOS/QtOpenGL?' \
 			-e 's?-framework QtTest?$$(MAYA_LOCATION)/MacOS/QtTest?' \
 			-e 's?-framework QtXml?$$(MAYA_LOCATION)/MacOS/QtXml?' \
+			-e 's?-framework QtSvg?$$(MAYA_LOCATION)/MacOS/QtSvg?' \
+			-e 's?-framework qwt?$$(MAYA_LOCATION)/MacOS/qwt?' \
 			-e 's?-dynamiclib??' >$@
 
-PLUGINS =	myplugin.$(EXT)	\
+PLUGINS =	aeditor.$(EXT)	\
 
 ifeq ($(QMAKE),)
 all:
