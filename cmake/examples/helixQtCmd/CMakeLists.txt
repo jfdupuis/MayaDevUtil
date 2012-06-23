@@ -25,6 +25,7 @@ set(ENV{MAYA_LOCATION} /Applications/Autodesk/maya2013/Maya.app/Contents)
 # Find the libraries
 ############################################################################
 set(CMAKE_SHARED_MODULE_SUFFIX ".bundle")
+set(CMAKE_SHARED_MODULE_PREFIX "")
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 # Find Maya 
