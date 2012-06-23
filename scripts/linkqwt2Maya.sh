@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Modify the Qwt library properties to ensure correct linking
+# with the Qt libraries provided with maya
+
+# Usage: execute the script in the folder where a copy of the
+# qwt library is located. Then, move the modified library
+# to the Maya.app/Content/MacOS folder.
+
 #Qwt
 install_name_tool -id @executable_path/qwt qwt
 

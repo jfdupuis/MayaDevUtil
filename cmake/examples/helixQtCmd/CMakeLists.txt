@@ -1,27 +1,56 @@
 cmake_minimum_required (VERSION 2.6) 
-project (helixQtCmd) 
+
+############################################################################
+# Define the project and plugin name and source [REQUIRED]
+############################################################################
+
+project(helixQtCmd) 
+
+set(PLUGIN_NAME helixQtCmd)
+
+set(${PLUGIN_NAME}_SOURCES helixQtCmd.cpp)
+set(${PLUGIN_NAME}_HEADERS helixQtCmd.h)
+
+############################################################################
+# Define Maya and Qt location [REQUIRED]
+############################################################################
 
 # QTDIR can be set to indicate to help finding Qt
-# set(ENV{QTDIR} /usr/local/Cellar/qt/4.7.1/)
+set(ENV{QTDIR} /usr/local/Cellar/qt/4.7.1/)
 
+# Set the maya location
+set(ENV{MAYA_LOCATION} /Applications/Autodesk/maya2013/Maya.app/Contents)
+
+############################################################################
+# Find the libraries
+############################################################################
 set(CMAKE_SHARED_MODULE_SUFFIX ".bundle")
 set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-
-set(ENV{MAYA_LOCATION} /Applications/Autodesk/maya2012/Maya.app/Contents)
+# Find Maya 
 find_package(Maya)
-FIND_PACKAGE(Qt4 REQUIRED)
+# Find Qt
+find_package(Qt4 REQUIRED)
 
-# OpenMayaAnim, OpenMayaFX, OpenMayaRender,OpenMayaUI 
-#SET( MAYA_EXTRA_LIBRARIES  "OpenMaya" )
+# call moc
+QT4_WRAP_CPP(${PLUGIN_NAME}_HEADERS_MOC ${${PLUGIN_NAME}_HEADERS})
 
-SET(helixQtCmd_SOURCES helixQtCmd.cpp)
-SET(helixQtCmd_HEADERS helixQtCmd.h)
+include(${QT_USE_FILE})
+add_definitions(${QT_DEFINITIONS})
 
-## Qt
-QT4_WRAP_CPP(helixQtCmd_HEADERS_MOC ${helixQtCmd_HEADERS})
-INCLUDE(${QT_USE_FILE})
-ADD_DEFINITIONS(${QT_DEFINITIONS})
+############################################################################
+# Define the required additional libraries [REQUIRED]
+############################################################################
 
-add_library(helixQtCmd MODULE ${helixQtCmd_SOURCES} ${helixQtCmd_HEADERS_MOC})
-target_link_libraries(helixQtCmd ${QT_LIBRARIES} ${MAYA_LIBRARIES})
+# Add the desired maya libraries
+#OpenMayaAnim, OpenMayaFX, OpenMayaRender,OpenMayaUI 
+#set( MAYA_EXTRA_LIBRARIES  "OpenMayaAnim" )
+
+#Overwrite the Qt linking libraries to link to the one provided by maya
+set(QT_LIBRARIES $ENV{MAYA_LOCATION}/MacOS/QtGui $ENV{MAYA_LOCATION}/MacOS/QtCore)
+
+############################################################################
+# Link plugin module
+############################################################################
+add_library(${PLUGIN_NAME} MODULE ${${PLUGIN_NAME}_SOURCES} ${${PLUGIN_NAME}_HEADERS_MOC})
+target_link_libraries(${PLUGIN_NAME} ${QT_LIBRARIES} ${MAYA_LIBRARIES})

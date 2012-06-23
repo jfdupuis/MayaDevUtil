@@ -25,7 +25,7 @@
 # (To distribute this file outside of CMake, substitute the full
 #  License text for the above reference.)
 
-SET(MAYA_VERSION_2012 TRUE)
+#SET(MAYA_VERSION_2012 TRUE)
 
 ## add one to this list to match your install if none match
 
@@ -33,10 +33,6 @@ IF(APPLE)
 	FIND_PATH(MAYA_DEVKIT_DIR include/maya/MFn.h 
 		PATHS
 			ENV MAYA_LOCATION
-			"/Applications/Autodesk/maya2012.17/Maya.app/Contents"
-			"/Applications/Autodesk/maya2012/Maya.app/Contents"
-			"/Applications/Autodesk/maya2011/Maya.app/Contents"
-			"/Applications/Autodesk/maya2010/Maya.app/Contents"
 		PATH_SUFFIXES
 			../../devkit
 	)
@@ -44,7 +40,6 @@ IF(APPLE)
 	FIND_PATH(MAYA_LIBRARY_DIR libOpenMaya.dylib
 		PATHS
 			ENV MAYA_LOCATION
-			"/Applications/Autodesk/maya2012/Maya.app/Contents"
 		PATH_SUFFIXES
 			MacOS/
 		DOC "Maya's libraries path"
@@ -125,7 +120,6 @@ FIND_PATH(MAYA_DEVKIT_PLUGIN_INC_DIR GL/glext.h
 	DOC "Maya's devkit headers path"
 )
 LIST(APPEND MAYA_INCLUDE_DIRS ${MAYA_DEVKIT_PLUGIN_INC_DIR})
-
 
 # Find the basic libraries
 FOREACH(MAYA_LIB
@@ -211,3 +205,6 @@ set(CMAKE_MODULE_LINKER_FLAGS "-fno-gnu-keywords -fpascal-strings -O3 ${ARCH_FLA
 INCLUDE(FindPackageHandleStandardArgs)
 FIND_PACKAGE_HANDLE_STANDARD_ARGS(Maya DEFAULT_MSG MAYA_LIBRARIES MAYA_EXECUTABLE MAYA_INCLUDE_DIRS)
 
+if(NOT MAYA_FOUND AND NOT MAYA_FIND_QUIETLY)
+	message("Maya not found with location: $ENV{MAYA_LOCATION}")
+endif()
