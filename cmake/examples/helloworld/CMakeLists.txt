@@ -1,4 +1,6 @@
 cmake_minimum_required (VERSION 2.6) 
+cmake_policy(SET CMP0008 NEW) # For Xcode
+
 project (HelloWorld) 
 
 set(CMAKE_SHARED_MODULE_SUFFIX ".bundle")

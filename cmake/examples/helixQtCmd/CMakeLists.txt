@@ -1,4 +1,5 @@
 cmake_minimum_required (VERSION 2.6) 
+cmake_policy(SET CMP0008 NEW) # For Xcode
 
 ############################################################################
 # Define the project and plugin name and source [REQUIRED]
