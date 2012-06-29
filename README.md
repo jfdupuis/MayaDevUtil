@@ -1,7 +1,7 @@
 MayaDevUtil
 ==============
 
-A collection of template to help the creation of Maya plugin by providing templates for project create using either cmake, Qt or Xcode.
+A collection of template to help the creation of Maya plugin by providing templates for project using either cmake, Qt or Xcode.
 
 Debugging with Xcode:
 - Set scheme executable to Maya.app/Contents/bin/maya. Might need to manually edit the project file.
