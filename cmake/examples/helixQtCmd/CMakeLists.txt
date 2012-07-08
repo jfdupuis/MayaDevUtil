@@ -44,15 +44,16 @@ add_definitions(${QT_DEFINITIONS})
 # Define the required additional libraries [REQUIRED]
 ############################################################################
 
+
 # Add the desired maya libraries
 #OpenMayaAnim, OpenMayaFX, OpenMayaRender,OpenMayaUI 
-#set( MAYA_EXTRA_LIBRARIES  "OpenMayaAnim" )
+#set( MAYA_EXTRA_LIBRARIES  ${MAYA_OpenMayaAnim_LIBRARY} )
 
 #Overwrite the Qt linking libraries to link to the one provided by maya
-set(QT_LIBRARIES $ENV{MAYA_LOCATION}/MacOS/QtGui $ENV{MAYA_LOCATION}/MacOS/QtCore)
+set(QT_MAYA_LIBRARIES $ENV{MAYA_LOCATION}/MacOS/QtGui $ENV{MAYA_LOCATION}/MacOS/QtCore)
 
 ############################################################################
 # Link plugin module
 ############################################################################
 add_library(${PLUGIN_NAME} MODULE ${${PLUGIN_NAME}_SOURCES} ${${PLUGIN_NAME}_HEADERS_MOC})
-target_link_libraries(${PLUGIN_NAME} ${QT_LIBRARIES} ${MAYA_LIBRARIES})
+target_link_libraries(${PLUGIN_NAME} ${QT_MAYA_LIBRARIES} ${MAYA_LIBRARIES})
